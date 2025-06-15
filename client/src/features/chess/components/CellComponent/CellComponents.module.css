@@ -1,0 +1,54 @@
+* {
+    --light-color: #fcf9f4;
+    --dark-color: #50a4af;
+  }
+  
+  .cell {
+      width: 88px;
+      height: 88px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+  }
+  
+  
+  .black {
+    background-color: var(--dark-color);
+  }
+  
+  .white {
+    background-color: var(--light-color);
+  }
+  
+  .cell img {
+    aspect-ratio: 1;
+    width: 80px;
+    background-color: transparent !important;
+    cursor: pointer;
+  }
+  
+  .emptySelected.black{
+    background-color: #59b1bd;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .emptySelected.white {
+    background-color: #d4f1f7;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .availableEmptyCell {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: rgb(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  .availableFigure {
+    background-color: #255e66;
+  }
+  
+  .check {
+     background-color: rgb(182, 60, 38);
+  }
