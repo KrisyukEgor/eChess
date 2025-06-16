@@ -33,7 +33,10 @@ export class CreateRoomHandler implements IRoomEventHandler<Payload> {
 
         const resPayload: RoomCreatedPayload = {
           roomId: room.Id,
-          player: player,
+          player: {
+            player: player,
+            isReady: false,
+          }
         };
 
         const wsEvent: RoomEvent = {

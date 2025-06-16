@@ -20,7 +20,7 @@ export class LeaveRoomHandler implements IRoomEventHandler<Payload> {
 
     handle(meta: ClientMeta, payload: Payload) {
 
-        this.useCase.execute(payload.roomId, payload.roomId);
+        this.useCase.execute(payload.roomId, payload.userId);
 
         meta.roomId = null;
 

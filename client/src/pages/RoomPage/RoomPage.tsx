@@ -12,8 +12,7 @@ export const RoomPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const { roomId, players, roomError, joinRoom, leaveRoom } = useRoomContext();
-  const {request} = useFetch();
-
+  
   useEffect(() => {
     if (roomError) {
       alert(roomError);
@@ -61,9 +60,14 @@ export const RoomPage: React.FC = () => {
           <h3>Игроки в комнате ({players.length}/2):</h3>
           {players.length > 0 ? (
             players.map((p) => (
-              <p key={p.id} className={styles.playerItem}>
-                {p.userName} ({p.color})
-              </p>
+              <div key={p.id} className={styles.playerRow}>
+                <p className={styles.playerItem}>
+                  {p.userName} ({p.color})
+                </p>
+                {p.id === user.id && (
+                  <button className={styles.readyButton}>Готов</button>
+                )}
+              </div>
             ))
           ) : (
             <p className={styles.noPlayers}>Ожидание игроков...</p>

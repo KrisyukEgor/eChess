@@ -156,3 +156,32 @@
     justify-content: center;
     align-items: flex-start;
   } 
+
+  playerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .playerItem {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .readyButton {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .readyButton:hover {
+    background-color: #45a049;
+  }

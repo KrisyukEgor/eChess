@@ -1,7 +1,7 @@
 import { Player } from "./Player";
 import { RoomStatus } from "../enums/RoomStatus";
 
-interface RoomPlayer {
+export interface RoomPlayer {
     player: Player;
     isReady: boolean
 }
@@ -86,12 +86,7 @@ export class Room {
     }
 
 
-    public getPlayers(): Player[] {
-        const players: Player[] = [];
-
-        for(const player of this._players) {
-            players.push(player.player)
-        }
-        return players;
+    public getPlayers(): RoomPlayer[] {
+        return this._players;
     }
 }

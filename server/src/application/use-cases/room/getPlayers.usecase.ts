@@ -1,4 +1,5 @@
 import { Player } from "../../../domain/entities/Player";
+import { RoomPlayer } from "../../../domain/entities/Room";
 import { RoomService } from "../../services/RoomService";
 
 
@@ -9,7 +10,7 @@ export class getPlayersUseCase {
         this.roomService = service;
     }
 
-    execute (roomId: string): Player[] {
+    execute (roomId: string): RoomPlayer[] {
         
         const room = this.roomService.findRoomById(roomId);
 

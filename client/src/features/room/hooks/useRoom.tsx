@@ -7,6 +7,10 @@ import { type WebSocketEvent } from "../../WebSocket/types/WebSocketTypes";
 import { Color } from "../../../../chess/src/Core/Enums/Color";
 import { config } from "../../../config/config";
 
+export interface RoomPlayer {
+  player: Player, 
+  isReady: boolean;
+}
 
 const ROOM_STORAGE = "roomId"
 export function useRoom() {
@@ -14,7 +18,7 @@ export function useRoom() {
   const { isConnected, send, subscribe } = useWebSocketContext();
 
   const [roomId, setRoomId] = useState<string | null>(() => localStorage.getItem(ROOM_STORAGE));
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<RoomPlayer[]>([]);
   const [roomError, setRoomError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,11 +32,15 @@ export function useRoom() {
           console.log("useRoom: ROOM CREATED, payload:", event.payload);
           setRoomError(null);
 
-          const createdPlayer: Player = {
-            id: event.payload.player.id, 
-            userName: event.payload.player.userName,
-            color: event.payload.player.color as Color
+          const createdPlayer: RoomPlayer = {
+            player: {
+              id: event.payload.player.id,
+              userName: event.payload.player.userName,
+              color: event.payload.player.color as Color,
+            },
+            isReady: false,
           };
+
 
           setRoomId(event.payload.roomId);
           setPlayers([createdPlayer]);
@@ -43,9 +51,20 @@ export function useRoom() {
 
         case "PLAYER_JOINED":
           console.log("useRoom: PLAYER_JOINED, payload:", event.payload);
+
+          if (!roomId && event.payload.roomId) {
+            setRoomId(event.payload.roomId);
+            localStorage.setItem(ROOM_STORAGE, event.payload.roomId);
+          }
+
           setPlayers((prev) => {
-            const exists = prev.some((p) => p.id === event.payload.player.id);
-            return exists ? prev : [...prev, event.payload.player];
+            const existingIds = new Set(prev.map((p) => p.id));
+
+            const newPlayers = event.payload.players.filter(
+              (p) => !existingIds.has(p.id)
+            );
+
+            return [...prev, ...newPlayers];
           });
           break;
 
@@ -164,10 +183,13 @@ export function useRoom() {
     console.log("useRoom: leaving room", roomId);
 
     localStorage.removeItem(ROOM_STORAGE);
+
+    console.log("leave room id", roomId);
+    send({ type: "LEAVE_ROOM", payload: { roomId, userId: user.id } });
+
     setRoomId(null);
     setPlayers([]);
     setRoomError(null);
-    send({ type: "LEAVE_ROOM", payload: { roomId, userId: user.id } });
   }, [roomId, user, send]);
 
   return {

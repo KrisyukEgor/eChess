@@ -1,4 +1,5 @@
 import { Player } from "../../domain/entities/Player";
+import { RoomPlayer } from "../../domain/entities/Room";
 import { FigureColors } from "../../domain/enums/FigureColors";
 
 export interface CreateRoomPayload {
@@ -27,12 +28,12 @@ export interface PlayerPayload {
 
 export interface RoomJoinedPayload {
   roomId: string;
-  players: Player[];
+  players: RoomPlayer[];
 }
 
 export interface RoomCreatedPayload {
   roomId: string;
-  player: Player;
+  player: RoomPlayer;
 }
 
 export interface PlayerLeftPayload {
