@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RoutesEnum } from "../../../shared/utils/RoutesEnum";
-import { User } from "../../../shared/types/User";
+import { type User } from "../../../shared/types/User";
 import { useFetch } from "../../../shared/hooks/useFetch";
 
 type LoginData = {
@@ -65,7 +65,7 @@ export default function useAuth() {
         const redirectPath =(location.state as any)?.from?.pathname || RoutesEnum.HomeRoute;
         navigate(redirectPath, { replace: true });
       } catch (e) {
-        // error already set by useFetch
+        console.log("login error", e);
       }
     },
     [request, location, navigate]
@@ -85,8 +85,8 @@ export default function useAuth() {
         setToken(data.token);
 
         navigate(RoutesEnum.HomeRoute, { replace: true });
-      } catch {
-        // error already set
+      } catch (e){
+        console.log("register error", e)
       }
     },
     [request, navigate]
