@@ -1,6 +1,6 @@
 
 import UseWebsocket from "../hooks/useWebsocket";
-import { type WebSocketEvent } from "../types/WebSocketTypes/WebSocketTypes";
+import type { WebSocketEvent } from "../types/WebSocketTypes";
 import { useAuthContext } from "../../auth/context/AuthContext";
 import { useContext, createContext } from "react";
 import { config } from "../../../config/config";
@@ -13,6 +13,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { token } = useAuthContext();
+
   const wsUrl = config.wsUrl;
 
   const websocket = UseWebsocket<WebSocketEvent>(wsUrl, token);

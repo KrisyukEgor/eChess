@@ -1,5 +1,7 @@
 export interface UserResponseDTO {
-  id: string;
-  email: string;
-  userName: string;
+  user: {
+    id: string;
+    email: string;
+    userName: string;
+  }
 }

@@ -22,14 +22,12 @@ export class WebsocketAdapter {
     private leaveRoomHandler: LeaveRoomHandler;
 
 
-    constructor(server: http.Server) {
+    constructor(server: http.Server, roomService: RoomService) {
         this.wss = new WSServer({
             server: server,
         })
 
         this.clientService = new ClientService();
-
-        const roomService = new RoomService();
         
         const createRoomUC = new CreateRoomUseCase(roomService);
         const joinRoomUC = new JoinRoomUseCase(roomService);

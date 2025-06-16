@@ -1,0 +1,163 @@
+.container {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .error {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .primaryButton {
+    padding: 12px 20px;
+    background-color: #3742fa;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .primaryButton:hover {
+    background-color: #2f34d7;
+  }
+  
+  .joinSection {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .input {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .secondaryButton {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .secondaryButton:hover {
+    background-color: #218838;
+  }
+  
+  .inviteSection {
+    text-align: center;
+  }
+  
+  .infoText {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .code {
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: 600;
+    color: #3742fa;
+  }
+  
+  .linkBox {
+    display: inline-block;
+    margin-left: 8px;
+    word-break: break-all;
+  }
+  
+  .inviteLink {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .inviteLink:hover {
+    text-decoration: underline;
+  }
+  
+  .copyButton {
+    margin: 12px 0;
+    padding: 8px 16px;
+    background-color: #ffa502;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .copyButton:hover {
+    background-color: #e09e00;
+  }
+  
+  .playersList {
+    margin-top: 24px;
+  }
+  
+  .playersList h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .playerItem {
+    font-size: 16px;
+    color: #555;
+    list-style: none;
+    margin-bottom: 4px;
+  }
+  
+  .waitingText {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  .enterRoomButton {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3742fa;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    margin-top: 16px;
+  }
+  
+  .enterRoomButton:hover {
+    background-color: #2f34d7;
+  }
+  

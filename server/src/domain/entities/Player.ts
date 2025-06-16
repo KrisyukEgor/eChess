@@ -1,18 +1,18 @@
 import { FigureColors } from "../enums/FigureColors";
 
 export class Player {
-  private readonly userId: string;
+  private readonly id: string;
   private color: FigureColors;
   private userName: string;
 
   constructor(userId: string, color: FigureColors, userName: string) {
-    this.userId = userId;
+    this.id = userId;
     this.color = color;
     this.userName = userName;
   }
 
   get Id(): string {
-    return this.userId;
+    return this.id;
   }
 
   get Color(): FigureColors {

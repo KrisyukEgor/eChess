@@ -8,6 +8,8 @@ export class JoinRoomUseCase {
   constructor( private service: RoomService) {}
 
   execute(roomId: string, player: Player): Room {
+
+    console.log(this.service.getRooms())
     const room = this.service.findRoomById(roomId);
 
     if (!room) {

@@ -28,6 +28,8 @@ export class JoinRoomHandler implements IRoomEventHandler<Payload> {
         meta.userName = payload.userName;
         meta.roomId = payload.roomId;
 
+        console.log("joint payload", payload)
+
         const player = new Player(payload.userId, payload.color, payload.userName);
 
         const room = this.useCase.execute(payload.roomId ,player);
@@ -37,9 +39,9 @@ export class JoinRoomHandler implements IRoomEventHandler<Payload> {
             players: room.getPlayers()
         }
         const wsEvent: RoomEvent = {
-            type: "ROOM_JOINED",
-            payload: responsePayload
-        }
+          type: "PLAYER_JOINED",
+          payload: responsePayload,
+        };
 
         this.service.broadcastToRoom(room.Id, wsEvent);
     }

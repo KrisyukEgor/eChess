@@ -7,7 +7,7 @@ import { FigureColors } from "../../../domain/enums/FigureColors";
 import { RoomCreatedPayload, RoomEvent } from "../../events/roomEvent";
 
 type Payload = {
-  userId: string;
+  id: string;
   userName: string;
   color: FigureColors;
 };
@@ -21,10 +21,11 @@ export class CreateRoomHandler implements IRoomEventHandler<Payload> {
         this.useCase = useCase;
     }
     handle(meta: ClientMeta, payload: Payload) {
-        meta.userId = payload.userId;
+
+        meta.userId = payload.id;
         meta.userName = payload.userName;
 
-        const player = new Player(payload.userId, payload.color, payload.userName);
+        const player = new Player(payload.id, payload.color, payload.userName);
 
         const room = this.useCase.execute(player);
 
@@ -34,6 +35,7 @@ export class CreateRoomHandler implements IRoomEventHandler<Payload> {
           roomId: room.Id,
           player: player,
         };
+
         const wsEvent: RoomEvent = {
             type: "ROOM_CREATED",
             payload: resPayload

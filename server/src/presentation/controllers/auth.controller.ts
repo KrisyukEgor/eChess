@@ -48,11 +48,13 @@ export class AuthController {
       }
 
       const token = authHeader.split(" ")[1];
-
+  
       const user = await this.verifyTokenUseCase.execute(token);
 
-      const userDto = AuthMapper.toUserResponse(user);
-      res.status(200).json(userDto);
+      if(user) {
+        const userDto = AuthMapper.toUserResponse(user);
+        res.status(200).json(userDto);
+      }
     } 
     catch (e: any) {
       res.status(401).json({ message: e.message || "Invalid token" });

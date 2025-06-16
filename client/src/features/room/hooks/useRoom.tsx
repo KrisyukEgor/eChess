@@ -3,13 +3,17 @@ import { useAuthContext } from "../../auth/context/AuthContext";
 import { useWebSocketContext } from "../../WebSocket/context/WebSocketContext";
 
 import { type Player } from "../../../shared/types/Player";
-import { type WebSocketEvent } from "../../WebSocket/types/WebSocketTypes/WebSocketTypes";
+import { type WebSocketEvent } from "../../WebSocket/types/WebSocketTypes";
+import { Color } from "../../../../chess/src/Core/Enums/Color";
+import { config } from "../../../config/config";
 
+
+const ROOM_STORAGE = "roomId"
 export function useRoom() {
   const { user } = useAuthContext();
   const { isConnected, send, subscribe } = useWebSocketContext();
 
-  const [roomId, setRoomId] = useState<string | null>(null);
+  const [roomId, setRoomId] = useState<string | null>(() => localStorage.getItem(ROOM_STORAGE));
   const [players, setPlayers] = useState<Player[]>([]);
   const [roomError, setRoomError] = useState<string | null>(null);
 
@@ -20,13 +24,22 @@ export function useRoom() {
       console.log("useRoom: WebSocket event received:", event);
 
       switch (event.type) {
-        case "ROOM_JOINED":
-          console.log("useRoom: ROOM_JOINED, payload:", event.payload);
+        case "ROOM_CREATED": {
+          console.log("useRoom: ROOM CREATED, payload:", event.payload);
           setRoomError(null);
-          setPlayers(event.payload.players);
+
+          const createdPlayer: Player = {
+            id: event.payload.player.id, 
+            userName: event.payload.player.userName,
+            color: event.payload.player.color as Color
+          };
+
           setRoomId(event.payload.roomId);
-          localStorage.setItem("roomId", event.payload.roomId);
+          setPlayers([createdPlayer]);
+
+          localStorage.setItem(ROOM_STORAGE, event.payload.roomId);
           break;
+        }
 
         case "PLAYER_JOINED":
           console.log("useRoom: PLAYER_JOINED, payload:", event.payload);
@@ -42,7 +55,7 @@ export function useRoom() {
           setPlayers((prev) => {
             return prev.filter((p) => p.id !== event.payload.userId);
           });
-          localStorage.removeItem("roomId");
+          localStorage.removeItem(ROOM_STORAGE);
           break;
 
         case "ROOM_ERROR":
@@ -57,6 +70,42 @@ export function useRoom() {
     };
   }, [subscribe]);
 
+  useEffect(() => {
+
+    if (!roomId) {
+      setPlayers([]);
+      return;
+    }
+
+    let isMounted = true;
+    const url = `${config.apiUrl}/rooms/${roomId}/players`;
+
+    fetch(url, { method: "GET" })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text || response.statusText);
+          });
+        }
+        return response.json();
+      })
+      .then((data: { players: Player[] }) => {
+        if (isMounted) {
+          setPlayers(data.players);
+          setRoomError(null);
+        }
+      })
+      .catch((err) => {
+        if (isMounted) {
+          setRoomError(err.message || "Failed to load players");
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [roomId]);
+  
   const createRoom = useCallback(() => {
     if (!isConnected) {
       setRoomError("Сервер не подключён");
@@ -76,6 +125,7 @@ export function useRoom() {
       payload: {
         userId: user.id,
         userName: user.userName,
+        color: Color.WHITE
       },
     });
   }, [isConnected, user, send]);
@@ -112,6 +162,8 @@ export function useRoom() {
     if (!roomId || !user) return;
 
     console.log("useRoom: leaving room", roomId);
+
+    localStorage.removeItem(ROOM_STORAGE);
     setRoomId(null);
     setPlayers([]);
     setRoomError(null);

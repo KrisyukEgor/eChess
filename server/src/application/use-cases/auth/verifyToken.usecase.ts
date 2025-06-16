@@ -9,19 +9,18 @@ export class VerifyTokenUseCase {
     this.authRepository = authRepository;
   }
 
-  async execute(token: string): Promise<User> {
+  async execute(token: string): Promise<User | null> {
     try {
+
       const user = await this.authRepository.verifyToken(token);
 
       if (!user) {
         throw new Error("User not found after token verification");
       }
 
-      console.log(user.Id); 
       return user;
     } 
     catch (error) {
-      console.error("Error in VerifyTokenUseCase:", error);
       throw error; 
     }
   }

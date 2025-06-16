@@ -4,6 +4,7 @@ import { RoutesEnum } from "../../../shared/utils/RoutesEnum";
 import { type User } from "../../../shared/types/User";
 import { useFetch } from "../../../shared/hooks/useFetch";
 
+import { config } from "../../../config/config";
 type LoginData = {
   email: string;
   password: string;
@@ -17,33 +18,42 @@ type AuthResponse = {
   token: string;
 };
 
-const LOGIN_PATH = "http://localhost:5000/auth/login";
-const REGISTER_PATH = "http://localhost:5000/auth/register";
-const AUTH_ME_PATH = "http://localhost:5000/auth/me";
+const TOKEN_KEY = "token";
+
+const LOGIN_PATH =  config.apiUrl + "/auth/login";
+const REGISTER_PATH = config.apiUrl + "/auth/register";
+const AUTH_ME_PATH = config.apiUrl + "/auth/me";
 
 export default function useAuth() {
   const { loading: isLoading, error, request } = useFetch<AuthResponse>();
 
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
 
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
+
     async function checkAuth() {
+
       try {
+
         const data = await request({
           url: AUTH_ME_PATH,
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
         });
+
         setUser(data.user);
-        setToken(data.token);
+
       } 
-      catch {
+      catch (e) {
         setUser(null);
         setToken(null);
+
+        console.log(e)
+
       }
     }
     checkAuth();
@@ -62,9 +72,14 @@ export default function useAuth() {
         setUser(data.user);
         setToken(data.token);
 
-        const redirectPath =(location.state as any)?.from?.pathname || RoutesEnum.HomeRoute;
+        console.log("login token", data.token);
+
+        const redirectPath = RoutesEnum.HomeRoute;
         navigate(redirectPath, { replace: true });
-      } catch (e) {
+
+        localStorage.setItem(TOKEN_KEY, data.token);
+      } 
+      catch (e) {
         console.log("login error", e);
       }
     },
@@ -85,6 +100,8 @@ export default function useAuth() {
         setToken(data.token);
 
         navigate(RoutesEnum.HomeRoute, { replace: true });
+
+        localStorage.setItem(TOKEN_KEY, data.token);
       } catch (e){
         console.log("register error", e)
       }
@@ -93,7 +110,7 @@ export default function useAuth() {
   );
 
   const logout = useCallback(() => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem(TOKEN_KEY);
     setUser(null);
     setToken(null);
     navigate(RoutesEnum.HomeRoute);

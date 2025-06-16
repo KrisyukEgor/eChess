@@ -6,9 +6,11 @@ import { AuthResponseDTO } from "../dto/auth/AuthResponse.dto";
 export class AuthMapper {
   public static toUserResponse(user: User): UserResponseDTO {
     return {
-      id: user.Id,
-      email: user.Email,
-      userName: user.UserName,
+      user: {
+        id: user.Id,
+        email: user.Email,
+        userName: user.UserName,
+      }
     };
   }
 

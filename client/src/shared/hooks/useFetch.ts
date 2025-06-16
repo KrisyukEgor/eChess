@@ -25,7 +25,7 @@ export function useFetch<T>(): UseFetchResult<T> {
 
       if (!response.ok) {
         const errText = await response.text().catch(() => "");
-        throw new Error(errText || response.statusText);
+        throw new Error(errText);
       }
 
       if (skipJson) {

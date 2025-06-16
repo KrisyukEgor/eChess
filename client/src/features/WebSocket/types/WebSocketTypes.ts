@@ -1,5 +1,6 @@
-import { type RoomTypes } from "./RoomTypes/RoomType";
+import type { GameEvent } from "./GameTypes/GameEvent";
+import { type RoomEvents } from "./RoomTypes/RoomEvents";
 
 
 
-export type WebSocketEvent = RoomTypes;
+export type WebSocketEvent = RoomEvents;

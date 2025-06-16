@@ -17,4 +17,8 @@ export class RoomService {
       throw new Error(`Cannot remove: room ${roomId} does not exist`);
     }
   }
+
+  public getRooms(): Room[] {
+    return Array.from(this._rooms.values())
+  }
 }

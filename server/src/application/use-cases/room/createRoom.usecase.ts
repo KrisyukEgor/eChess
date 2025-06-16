@@ -10,6 +10,7 @@ export class CreateRoomUseCase {
   constructor( private service: RoomService) {}
  execute(hostPlayer: Player): Room {
 
+
     const room = new Room(this.createRoomId(), hostPlayer);
 
     this.service.addRoom(room);

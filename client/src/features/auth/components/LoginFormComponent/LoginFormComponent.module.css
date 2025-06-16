@@ -1,0 +1,69 @@
+
+.container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .button {
+    padding: 10px 16px;
+    margin-top: 8px;
+    font-size: 16px;
+    background-color: #3742fa;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .button:hover {
+    background-color: #2f34d7;
+  }
+  
+  .formError {
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #e74c3c;
+    text-align: center;
+  }
+  
+  .redirectContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+  }
+  
+  .redirectText {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .redirectLink {
+    font-size: 14px;
+    color: #3742fa;
+    text-decoration: none;
+    margin-left: 4px;
+    transition: text-decoration 0.2s;
+  }
+  
+  .redirectLink:hover {
+    text-decoration: underline;
+  }
+  

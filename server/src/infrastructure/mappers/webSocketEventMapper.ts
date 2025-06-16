@@ -18,7 +18,7 @@ export class WebSocketEventMapper {
             case "CREATE_ROOM":
 
                 const createRoomDTO: CreateRoomPayload  = {
-                    userId: payload.userId,
+                    id: payload.userId,
                     userName: payload.userName,
                     color: payload.color as FigureColors,
                 }
